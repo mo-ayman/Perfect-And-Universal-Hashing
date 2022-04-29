@@ -9,12 +9,14 @@ public class UniversalHashFnGenerator {
     private Byte[][] universalHashFn;
     private int[] keys;
     private Byte[] locations;
+    private int countOfRehashing;
 
     public UniversalHashFnGenerator() {
         this.u_keyDimension = 32;
         this.b_locationDimension = 0;
         this.keys = new int[0];
         this.locations = new Byte[0];
+        this.countOfRehashing = 0;
     }
 
     public void setRequisites(int u, int b, int[] keys){
@@ -26,9 +28,17 @@ public class UniversalHashFnGenerator {
         Arrays.fill(this.locations, Byte.parseByte("0"));
     }
 
+    public int getCountOfRehashing() {
+        int c = this.countOfRehashing;
+        this.countOfRehashing = 0;
+        return c;
+    }
+
     public Byte[][] generateFn(boolean collisionsPermitted){
         boolean isThereCollisions = false;
+        this.countOfRehashing = 0;
         while (!isThereCollisions){
+            this.countOfRehashing++;
             Arrays.fill(this.locations, Byte.parseByte("0"));
             for(int i = 0; i < this.b_locationDimension; i++) {
                 for (int j = 0; j < this.u_keyDimension; j++)
@@ -47,7 +57,7 @@ public class UniversalHashFnGenerator {
         return Byte.parseByte(String.valueOf(set.charAt(i)));
     }
 
-    protected Byte[] decompose(int key){
+    public Byte[] decompose(int key){
         Byte[] keyVector = new Byte[this.u_keyDimension];
         int index = this.u_keyDimension - 1;
         while (key > 0 && index >= 0){
@@ -58,7 +68,7 @@ public class UniversalHashFnGenerator {
         return keyVector;
     }
 
-    protected int aggregate(Byte[] locationVector){
+    public int aggregate(Byte[] locationVector){
         int index = locationVector.length - 1;
         int start = index;
         int loc = 0;

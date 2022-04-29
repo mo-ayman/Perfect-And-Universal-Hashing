@@ -1,10 +1,14 @@
-package IHashing;
+package IHashing.DynamicPHT;
+
+import IHashing.DynamicPHT.DynamicPerfectHashTable;
+import IHashing.Item;
+import IHashing.UniversalHashFnGenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PerfectHashTable_nSquareSpace <T> implements PerfectHashTable<T>{
+public class DynPerfectHashTable_nSquareSpace<T> implements DynamicPerfectHashTable<T> {
     private final UniversalHashFnGenerator generator;
     private int b_locationDimensions;
     private int actualSize;
@@ -13,7 +17,7 @@ public class PerfectHashTable_nSquareSpace <T> implements PerfectHashTable<T>{
     private List<Item<T>> keys;
 
 
-    public PerfectHashTable_nSquareSpace() {
+    public DynPerfectHashTable_nSquareSpace() {
         this.generator = new UniversalHashFnGenerator();
         this.b_locationDimensions = 2;
         this.actualSize = 0;
@@ -41,7 +45,7 @@ public class PerfectHashTable_nSquareSpace <T> implements PerfectHashTable<T>{
     public Item[] getTable() {return table;}
 
     @Override
-    public void insert(Item<T> item) {
+    public int insert(Item<T> item) {
         keys.add(item);
         int location = hash(item.getKey());
         this.actualSize++;
@@ -59,6 +63,7 @@ public class PerfectHashTable_nSquareSpace <T> implements PerfectHashTable<T>{
             for(int i = 0; i < keys.size() ; i++)
                 this.table[hash(keys.get(i).getKey())] = this.keys.get(i);
         }
+        return generator.getCountOfRehashing();
     }
 
     @Override
