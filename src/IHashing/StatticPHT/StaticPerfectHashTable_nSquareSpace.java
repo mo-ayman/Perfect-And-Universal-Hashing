@@ -47,7 +47,9 @@ public class StaticPerfectHashTable_nSquareSpace<T> implements StaticPerfectHash
 
     @Override
     public Item<T> contain(int key) {
-        return new Item<>(key, table[hash(key)].getValue());
+        Item<T> item = this.table[hash(key)];
+        if(item == null) return null;
+        return new Item<>(key, item.getValue());
     }
 
     public Item<T>[] getTable() {
