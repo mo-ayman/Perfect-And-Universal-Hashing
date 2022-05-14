@@ -23,8 +23,10 @@ public class Main<T> {
             case 1 :
                 StaticPerfectHashTable staticPerfectHashTableSquare = new StaticPerfectHashTable_nSquareSpace();
                 ListReader listReader = new ListReader();
-                int rehashingNum = staticPerfectHashTableSquare.construct(listReader.read());
-                System.out.println("no. of rehashings : " + rehashingNum);
+                int rehashingNum = staticPerfectHashTableSquare.construct(listReader.randomize(2));
+                int s = staticPerfectHashTableSquare.getActualSize();
+                System.out.println("no. of rehashings : " + rehashingNum +
+                        "\nsizeOccupied = "+ s);
                 while (true){
                     System.out.println("select an option :\n" + " 1. look for a key\n" + " 2. exit");
                     System.out.print("=> ");
@@ -47,7 +49,9 @@ public class Main<T> {
                 StaticPerfectHashTable staticPerfectHashTable_nSpace = new StaticPerfectHashTable_nSpace<>();
                 ListReader listReader1 = new ListReader();
                 int rehashingNum1 = staticPerfectHashTable_nSpace.construct(listReader1.read());
-                System.out.println("no. of rehashings : " + rehashingNum1);
+                s = staticPerfectHashTable_nSpace.getActualSize();
+                System.out.println("no. of rehashings : " + rehashingNum1 +
+                        "\nsizeOccupied = "+ s);
                 reader = new Scanner(System.in);
                 while (true){
                     System.out.println("select an option :\n 1. look for a key\n" + " 2. exit");
@@ -105,88 +109,3 @@ public class Main<T> {
         }
     }
 }
-//        UniversalHashFnGenerator generator = new UniversalHashFnGenerator();
-//        generator.setRequisites(32, 3, new int[]{2, 4, 5, 100, 3, 7, 98, 50});
-//        Byte[][] mat = generator.generateFn(false);
-//        for(int i = 0; i  <mat.length; i++){
-//            for(int j = 0; j < mat[0].length; j++)
-//                System.out.print(mat[i][j] + " ");
-//            System.out.println();
-//        }
-//        Byte[] loc = generator.getLocations();
-//        for(int i = 0; i < loc.length; i++){
-//            System.out.println(loc[i]);
-//        }
-//        DynPerfectHashTable_nSquareSpace<String> perfectHashTable = new DynPerfectHashTable_nSquareSpace<>();
-//        int count = perfectHashTable.insert(new Item<>(2, "lo"));
-//        Item<String>[] table = perfectHashTable.getTable();
-//        for (int i = 0; i < table.length; i++){
-//            if (table[i] == null) System.out.println("loc: " + i + " & item: " + table[i]);
-//            else System.out.println("loc.: "+ i + "key: " + table[i].getKey() + " & item: " + table[i].getValue());
-//        }
-//        System.out.println(count);
-//        System.out.println();
-//        count = perfectHashTable.insert(new Item<>(6, "lol"));
-//        table = perfectHashTable.getTable();
-//        for (int i = 0; i < table.length; i++){
-//            if (table[i] == null) System.out.println("loc: " + i + " & item: " + table[i]);
-//            else System.out.println("loc.: "+ i + " & key: " + table[i].getKey() + " & item: " + table[i].getValue());
-//        }
-//        System.out.println(count);
-//        System.out.println();
-//        count = perfectHashTable.insert(new Item<>(100, "lolo"));
-//        table = perfectHashTable.getTable();
-//        for (int i = 0; i < table.length; i++){
-//            if (table[i] == null) System.out.println("loc: " + i + " & item: " + table[i]);
-//            else System.out.println("loc.: "+ i + " & key: " + table[i].getKey() + " & item: " + table[i].getValue());
-//        }
-//        System.out.println(count);
-//        System.out.println();
-//        count = perfectHashTable.insert(new Item<>(30, "lolo"));
-//        table = perfectHashTable.getTable();
-//        for (int i = 0; i < table.length; i++){
-//            if (table[i] == null) System.out.println("loc: " + i + " & item: " + table[i]);
-//            else System.out.println("loc.: "+ i + " & key: " + table[i].getKey() + " & item: " + table[i].getValue());
-//        }
-//        System.out.println(count);
-//        System.out.println();
-//        count = perfectHashTable.insert(new Item<>(25, "lolo"));
-//        table = perfectHashTable.getTable();
-//        for (int i = 0; i < table.length; i++){
-//            if (table[i] == null) System.out.println("loc: " + i + " & item: " + table[i]);
-//            else System.out.println("loc.: "+ i + " & key: " + table[i].getKey() + " & item: " + table[i].getValue());
-//        }
-//        System.out.println(count);
-//        System.out.println();
-//        Item t = perfectHashTable.contain(6);
-//        System.out.println("t.value: " + t.getValue());
-//
-//        StaticPerfectHashTable_nSquareSpace<String> pht = new StaticPerfectHashTable_nSquareSpace<>();
-//        Item<String> item1 = new Item<>(2, "gg");
-//        Item<String> item2 = new Item<>(4, "hh");
-//        Item<String> item3 = new Item<>(3, "gh");
-//        pht.construct(new Item[]{item1, item2, item3});
-//        System.out.println(pht.contain(5));
-//        Item<String>[] table1 = pht.getTable();
-//        for(int i= 0; i < table1.length; i++){
-//            if (table1[i] == null) System.out.println("loc: " + i + " & item: " + table1[i]);
-//            else System.out.println("loc.: "+ i + " & key: " + table1[i].getKey() + " & item: " + table1[i].getValue());
-//        }
-
-//        StaticPerfectHashTable_nSpace<String> phtn = new StaticPerfectHashTable_nSpace<>();
-//        Item<String> it1 = new Item<>(2, "gg");
-//        Item<String> it2 = new Item<>(4, "hh");
-//        Item<String> it3 = new Item<>(3, "gh");
-//        //Item<String> it4 = new Item<>(2, "gh");
-//        Item<String> it5 = new Item<>(5, "gh");
-//        int x = phtn.construct(new Item[]{it1, it2, it3, it5});
-//        Item<String> fnd = phtn.contain(4);
-//        System.out.println(fnd.getKey() + " " + fnd.getValue());
-//        fnd = phtn.contain(2);
-//        System.out.println(fnd.getKey() + " " + fnd.getValue());
-//        fnd = phtn.contain(3);
-//        System.out.println(fnd.getKey() + " " + fnd.getValue());
-//        System.out.println(x);
-
-//    }
-//}

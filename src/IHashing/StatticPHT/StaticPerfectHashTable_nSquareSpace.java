@@ -64,7 +64,14 @@ public class StaticPerfectHashTable_nSquareSpace<T> implements StaticPerfectHash
     public Item<T> contain(int key) {
         Item<T> item = this.table[hash(key)];
         if(item == null) return null;
+        if(item.getKey() != key) return null;
         return new Item<>(key, item.getValue());
+    }
+
+    @Override
+    public int getActualSize() {
+        int x = this.table.length;
+        return x;
     }
 
     public Item<T>[] getTable() {

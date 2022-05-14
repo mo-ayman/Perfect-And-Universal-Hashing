@@ -120,7 +120,20 @@ public class StaticPerfectHashTable_nSpace <T> implements StaticPerfectHashTable
         return null;
     }
 
-
+    @Override
+    public int getActualSize() {
+        int x = 0;
+        for(int i = 0; i < tableA.length; i++){
+            if(tableA[i] == null) continue;
+            else if(tableA[i].size() == 1) x++;
+            else{
+                int b = 0;
+                while(Math.pow(2, b) < Math.pow(tableA[i].size(), 2)) b++;
+                x += Math.pow(2, b);
+            }
+        }
+        return x;
+    }
 
 
 }

@@ -1,8 +1,6 @@
 package IHashing;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class ListReader {
     private String[] list;
@@ -33,5 +31,24 @@ public class ListReader {
         for(int i = 0; i < this.list.length; i++) ret[i] = this.items.get(i);
 //        reader1.close();
         return ret;
+    }
+    public Item[] randomize(int n){
+        Item[] items = new Item[n];
+        Random random = new Random();
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        for(int i = 0; i < n; i++){
+            int x = random.nextInt(1000);
+            String val = Integer.toString(random.nextInt());
+            builder.append("<");
+            builder.append(Integer.toString(x));
+            builder.append(", ");
+            builder.append(val);
+            builder.append(">, ");
+            items[i] = new Item(x, val);
+        }
+        builder.append("}");
+        System.out.println(builder.toString());
+        return items;
     }
 }
