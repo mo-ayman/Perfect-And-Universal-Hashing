@@ -34,7 +34,22 @@ public class StaticPerfectHashTable_nSquareSpace<T> implements StaticPerfectHash
 
     @Override
     public int construct(Item[] items) {
-        while(Math.pow(2, this.b_locDimension) < Math.pow(items.length, 2))
+        int length = items.length;
+        for(int i = 0; i < items.length; i++){
+            boolean minus = false;
+            for(int j = i + 1; j < items.length; j++){
+                if(items[i].getKey() == items[j].getKey()){
+                    minus= true;
+                    break;
+                }
+            }
+            if(minus == true) continue;
+            for(int j = 0; j < i; j++){
+                if(items[i].getKey() == items[j].getKey())
+                    length--;
+            }
+        }
+        while(Math.pow(2, this.b_locDimension) < Math.pow(length, 2))
             this.b_locDimension++;
         int[] keys = new int[items.length];
         for(int i = 0; i < items.length; i++) keys[i] = items[i].getKey();

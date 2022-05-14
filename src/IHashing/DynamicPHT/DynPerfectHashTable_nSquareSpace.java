@@ -49,7 +49,7 @@ public class DynPerfectHashTable_nSquareSpace<T> implements DynamicPerfectHashTa
         keys.add(item);
         int location = hash(item.getKey());
         this.actualSize++;
-        if(this.table[location] == null) this.table[location] = item;
+        if(this.table[location] == null || this.table[location].getKey() == item.getKey()) this.table[location] = item;
         else { ////collision occurs....you need to rehash
             System.out.println("Collision occurs...");
             while (Math.pow(2, this.b_locationDimensions) < Math.pow(this.actualSize, 2))
@@ -67,7 +67,12 @@ public class DynPerfectHashTable_nSquareSpace<T> implements DynamicPerfectHashTa
     }
 
     @Override
-    public Item<T> contain(int key) {return new Item<>(key, (T) this.table[hash(key)].getValue());}
+    public Item<T> contain(int key) {
+        Item<T> item = this.table[hash(key)];
+        if(item == null) return null;
+        return new Item<>(key, item.getValue());
+        //return new Item<>(key, (T) this.table[hash(key)].getValue());
+    }
 
     @Override
     public Item<T> delete(int key) {

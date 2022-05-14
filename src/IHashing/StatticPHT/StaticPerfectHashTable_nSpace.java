@@ -44,7 +44,22 @@ public class StaticPerfectHashTable_nSpace <T> implements StaticPerfectHashTable
 
     @Override
     public int construct(Item[] items) {
-        while (Math.pow(2, this.b_locDimension) < (items.length))
+        int length = items.length;
+        for(int i = 0; i < items.length; i++){
+            boolean minus = false;
+            for(int j = i + 1; j < items.length; j++){
+                if(items[i].getKey() == items[j].getKey()){
+                    minus= true;
+                    break;
+                }
+            }
+            if(minus == true) continue;
+            for(int j = 0; j < i; j++){
+                if(items[i].getKey() == items[j].getKey())
+                    length--;
+            }
+        }
+        while (Math.pow(2, this.b_locDimension) < (length))
             this.b_locDimension++;
         int[] keys = new int[items.length];
         int level = 0;
@@ -57,17 +72,23 @@ public class StaticPerfectHashTable_nSpace <T> implements StaticPerfectHashTable
             if (tableA[hash] == null) {
                 tableA[hash] = new LinkedList<>();
             }
+            boolean temp = true;
+            for(int z = 0; z < tableA[hash].size(); z++){
+                if (tableA[hash].get(z).getKey() == items[i].getKey())
+                    temp = false;
+            }
+            if(temp == false) continue;
             this.tableA[hash].add(items[i]);
         }
-        checkCollision();
-        return generator.getCountOfRehashing();
-
+        int noOfEntryRehashing = checkCollision();
+        return generator.getCountOfRehashing() + noOfEntryRehashing;
     }
 
-    private void checkCollision() {
+    private int checkCollision() {
+        int noOfRehashing = 0;
         for (int i = 0; i < this.tableA.length; i++) {
             if (this.tableA[i] != null && this.tableA[i].size() > 1) {
-                System.out.println("Collision at index " + i);
+                System.out.println("Collision at index " + i + " with size of " + this.tableA[i].size());
                 StaticPerfectHashTable_nSquareSpace<T> newTable = new StaticPerfectHashTable_nSquareSpace<>();
                 // Array of items to be added to the new table
                 Item<T>[] items = new Item[this.tableA[i].size()];
@@ -76,13 +97,13 @@ public class StaticPerfectHashTable_nSpace <T> implements StaticPerfectHashTable
                 for (int j = 0; j < this.tableA[i].size(); j++) {
                     items[j] =  this.tableA[i].get(j);
                 }
-                newTable.construct(items);
+                noOfRehashing += newTable.construct(items);
                 this.tableB.add(newTable);
 
             }
         }
 
-
+        return noOfRehashing;
     }
 
     @Override

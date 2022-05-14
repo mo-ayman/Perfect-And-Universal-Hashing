@@ -8,14 +8,14 @@ public class UniversalHashFnGenerator {
     private int b_locationDimension;
     private Byte[][] universalHashFn;
     private int[] keys;
-    private Byte[] locations;
+    private int[] locations;
     private int countOfRehashing;
 
     public UniversalHashFnGenerator() {
         this.u_keyDimension = 32;
         this.b_locationDimension = 0;
         this.keys = new int[0];
-        this.locations = new Byte[0];
+        this.locations = new int[0];
         this.countOfRehashing = 0;
     }
 
@@ -23,7 +23,7 @@ public class UniversalHashFnGenerator {
         this.u_keyDimension = u;
         this.b_locationDimension = b;
         this.keys = keys;
-        this.locations = new Byte[(int) Math.pow(2, this.b_locationDimension)];
+        this.locations = new int[(int) Math.pow(2, this.b_locationDimension)];
         this.universalHashFn = new Byte[b][u];
         Arrays.fill(this.locations, Byte.parseByte("0"));
     }
@@ -96,8 +96,8 @@ public class UniversalHashFnGenerator {
                 }
             }
             int loc = aggregate(locationVector);
-            noCollisionsFound = noCollisionsFound && !(this.locations[loc] == 1);////there is collisions
-            this.locations[loc] = 1;
+            noCollisionsFound = noCollisionsFound && (this.locations[loc] == 0 || this.locations[loc] == key);////there is collisions
+            this.locations[loc] = key;
         }
         return noCollisionsFound;
     }
